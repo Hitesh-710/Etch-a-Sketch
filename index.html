@@ -17,17 +17,35 @@
     </div>
     <div class="container"></div>
     <script>
+
         const container = document.querySelector('.container');
         const btns = document.querySelectorAll('.btn');
-        //selecting first and second button from the nodelist
-        const btn1 = btns[0];
+        const btn1 = btns[0]; //Selecting first and second button from the nodelist
         const btn2 = btns[1];
         const header = document.querySelector('.header');
         const body = document.querySelector('body');
 
-        //window.innerHeight and .innerWidth give the height and w including the scrollbar if present
-        const spaceleft = window.innerHeight - header.clientHeight - 40;
+        const spaceleft = window.innerHeight - header.clientHeight - 40; //window.innerHeight and .innerWidth give the height and w including the scrollbar if present
         
+        //Default 16x16 grid
+        for (let i = 0; i < rows; i++) {
+            const row = document.createElement('div');
+            row.classList.add('row');
+            container.appendChild(row);
+            
+            for (let j = 0; j < cols; j++) {
+                //adding n divs in each row of the grid 
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                // Set the width and height of the cell to be the same
+                cell.style.width = `${spaceleft / cols}px`;
+                cell.style.height = `${spaceleft / rows}px`;
+                cell.style.border = '1px solid black';
+                row.appendChild(cell);
+            }
+        }
+        
+        //Custom grid code
         btn1.addEventListener('click', () => {
             const rows = prompt('Enter number of rows');
             const cols = prompt('Enter number of columns');
@@ -53,22 +71,6 @@
                 return;
             }
 
-            for (let i = 0; i < rows; i++) {
-                const row = document.createElement('div');
-                row.classList.add('row');
-                container.appendChild(row);
-                
-                for (let j = 0; j < cols; j++) {
-                    //adding n divs in each row of the grid 
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    // Set the width and height of the cell to be the same
-                    cell.style.width = `${spaceleft / cols}px`;
-                    cell.style.height = `${spaceleft / rows}px`;
-                    cell.style.border = '1px solid black';
-                    row.appendChild(cell);
-                }
-            }
             
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => {
@@ -93,6 +95,7 @@
             }
         }
 
+        //Clear code
         const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
             cell.addEventListener('mouseover', () => {
