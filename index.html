@@ -5,16 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch-a-Sketch</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="index_chatgpt.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="header">
+
         <h1>Etch-a-Sketch</h1>
         <p>Hover over the grid to draw</p>
         <p>Click the button to create a new grid</p>
-        <button class="btn">New Grid</button>
-        <button class="btn">Clear</button>
+
+        <div class="button-container">
+
+            <button class="btn">New Grid</button>
+            <button class="btn">Clear</button>
+            <button class="btn active">Black</button>
+            <button class="btn">Random</button>
+
+        </div>
+
     </div>
+
     <div class="container"></div>
 
 </body>
