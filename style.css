@@ -43,7 +43,21 @@ h1{
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 20px 0px;
+    margin: 20px 8px;
     cursor: pointer;
     width: max-content;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px black;    
+}
+
+/* box shadow = horizontal offset | vertical offset | blur radius | colour  */
+
+.btn:hover{
+    transform: scale(1.1);
+    box-shadow: 0px 8px 16px black;
+    transition: 0.3s ;
+}
+
+.active{
+    background-color: #3b8d3e;
 }
