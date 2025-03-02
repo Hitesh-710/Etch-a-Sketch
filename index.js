@@ -1,127 +1,107 @@
-        const container = document.querySelector('.container');
-        const btns = document.querySelectorAll('.btn');
-        const btn1 = btns[0]; //Selecting first and second button from the nodelist
-        const btn2 = btns[1];
-        const btn3 = btns[2];
-        const btn4 = btns[3];
-        const header = document.querySelector('.header');
-        const body = document.querySelector('body');
+const container = document.querySelector('.container');
+const header = document.querySelector('.header');
+const buttons = document.querySelectorAll('button');
+const btn1 = buttons[0];
+const btn2 = buttons[1];
+const btn3 = buttons[2];
+const btn4 = buttons[3];
+const btn5 = buttons[4];
+let mode = 'black';
+let shading = false;
 
-        const spaceleft = window.innerHeight - header.clientHeight - 40; //window.innerHeight and .innerWidth give the height and w including the scrollbar if present
-        
-        //Custom grid code
-        btn1.addEventListener('click', () => {
-            const rows = prompt('Enter number of rows');
-            const cols = prompt('Enter number of columns');
-            
-            // Check if user cancels the prompt and stops the function before html is removed
-            if (rows === null || cols === null) {
-                return;
-            }
+const spaceleft = window.innerHeight - header.clientHeight - 40;
 
-            container.innerHTML = '';
-            
-            if (rows === '' || cols === '') {
-                alert('Please enter a valid number');
-                return;
-            }else if (rows > 100 || cols > 100) {
-                alert('Inputs cannot be greater than 100');
-                return;
-            }else if (rows < 1 || cols < 1) {
-                alert('Inputs cannot be less than 1');
-                return;
-            }else if (isNaN(rows) || isNaN(cols)) {
-                alert('Please enter a valid number');
-                return;
-            }
+function createGrid(rows = 16, cols = 16) {
 
-            for (let i = 0; i < rows; i++) {
-            const row = document.createElement('div');
-            row.classList.add('row');
-            container.appendChild(row);
-            
+    container.innerHTML = ''; //clearing previous grid
+
+    for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.classList.add('row');
+        container.appendChild(row);
+
             for (let j = 0; j < cols; j++) {
-                //adding n divs in each row of the grid 
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                // Set the width and height of the cell to be the same
-                cell.style.width = `${spaceleft / cols}px`;
-                cell.style.height = `${spaceleft / rows}px`;
-                cell.style.border = '1px solid black';
-                row.appendChild(cell);
-                }
+                const col = document.createElement('div');
+                col.classList.add('cell')
+                col.style.height = `${spaceleft / cols}px`;
+                col.style.width = `${spaceleft / rows}px`;
+                col.dataset.opacity = 0.1;
+                row.appendChild(col);
             }
-            
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => {
-                cell.addEventListener('mouseover', () => {
-                    cell.style.backgroundColor = `black`;
-                });
-            });
-        });
-        
-        //Default 16x16 grid
-        for (let i = 0; i < 16; i++) {
-            const row = document.createElement('div');
-            row.classList.add('row');
-            container.appendChild(row);
+    }
 
-            for (let j = 0; j < 16; j++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.style.width = `${spaceleft / 16}px`;
-                cell.style.height = `${spaceleft / 16}px`;
-                cell.style.border = '1px solid black';
-                row.appendChild(cell);
-            }
+}
+
+createGrid();
+
+btn1.addEventListener('click', () => {
+
+    const rows = prompt('Enter the number of rows (max 100)');
+    const cols = prompt('Enter the number of columns (max 100)');
+    if (isNaN(rows) || isNaN(cols) || rows == null || cols == null || rows < 1 || cols < 1 || rows > 100 || cols > 100)
+    {
+        alert('Enter a valid integer between 1 and 100.');
+        return;
+    } else {
+        createGrid(rows,cols);
+    }    
+})
+
+btn2.addEventListener('click', () => {
+
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell =>{
+        cell.style.backgroundColor = 'white';
+    })
+
+})
+
+btn3.addEventListener('click', () => {
+    mode = 'black';
+    btn3.classList.add('active');
+    btn4.classList.remove('active');
+})
+
+btn4.addEventListener('click', () => {
+    mode = 'color';
+    btn3.classList.remove('active');
+    btn4.classList.add('active');
+})
+
+btn5.addEventListener('click', () =>{
+    btn5.classList.toggle('active');
+    shading = btn5.classList.contains('active');
+})
+
+container.addEventListener('mouseover', activeMode) //event delegation
+
+function activeMode(event) {
+
+    const cell = event.target;
+
+    if(!cell.classList.contains('cell'))return; //only cells get affected
+
+    if (shading) {
+        let opacity = parseFloat(cell.dataset.opacity);
+        if (mode == 'black') {
+            cell.style.backgroundColor = `rgb(0,0,0,${opacity})`;
+            cell.dataset.opacity = opacity + 0.1;
+        } else {
+            cell.style.backgroundColor = random(opacity);
+            cell.dataset.opacity = opacity + 0.1;
         }
-        
-        //Color code each cell
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach(cell => {
-            cell.addEventListener('mouseover', () => {
-                cell.style.backgroundColor = `black`;
-            });
-        });
-        
-        //Clear code
-        btn2.addEventListener('click', () => {
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => {
-                cell.style.backgroundColor = 'white';
-            });
-        });
-        
-        //Black Mode
-        btn3.addEventListener('click', () => {
-            btn3.classList.add('active');
-            btn4.classList.remove('active');
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => {
-                cell.addEventListener('mouseover', () => {
-                    cell.style.backgroundColor = 'black';
-                })
-            })
-        })
-
-        //Color Mode
-        btn4.addEventListener('click', () => {
-            btn4.classList.add('active');
-            btn3.classList.remove('active');
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => {
-                cell.addEventListener('mouseover', () => {
-                    cell.style.backgroundColor = `${random()}`;
-                })
-            })
-        })
-
-        function random() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-            console.log(color);
+    } else {
+        if (mode == 'black') {
+            cell.style.backgroundColor = 'black';
+        } else {
+            cell.style.backgroundColor = random(1);
         }
+    }
+}
+
+function random(opac) {
+    return 'rgb(' + Math.floor(Math.random() * 255) + ','
+     + Math.floor(Math.random() * 255) + ','
+     + Math.floor(Math.random() * 255) + ','
+     + opac + ')'; 
+}

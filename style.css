@@ -34,6 +34,10 @@ h1{
     justify-content: center;
 }
 
+.cell{
+    border: 1px solid black;
+}
+
 .btn{
     background-color: #4CAF50;
     border: none;
